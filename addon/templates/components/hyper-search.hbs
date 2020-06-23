@@ -2,13 +2,13 @@
   {{yield this}}
 {{else}}
   <form class="hypersearch" {{action "commit" on="submit"}}>
-    {{one-way-input
+    <input
         class="hypersearch-input"
         name="query"
         type="text"
         placeholder=placeholder
-        update=(action "search")
-    }}
+        oninput={{action "search"}}
+    />
     <ul class="hypersearch-results">
       {{#each results as |result|}}
         <li class="hypersearch-result">
