@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default class PageObject {
   constructor(assert, options) {
     this.assert = assert;
@@ -90,14 +92,15 @@ export default class PageObject {
    * @return {this}
    */
   debug() {
-    // jshint ignore:start
+    // eslint-disable-next-line no-unused-vars
     const poInstance = this; // deopt Babel so `this` is accessible
+    // eslint-disable-next-line no-unused-vars
     return this.then((applicationInstance) => {
+      // eslint-disable-next-line no-console
       console.info('Access the PageObject with `poInstance`, and the application instance with `applicationInstance`.');
-      debugger;
+
       eval();
     });
-    // jshint ignore:end
   }
 
   then(callback) {

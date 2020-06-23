@@ -1,18 +1,13 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { A as emberArray } from '@ember/array';
+import { reject, resolve, Promise } from 'rsvp';
+import { bind, debounce } from '@ember/runloop';
+import { set, get } from '@ember/object';
+import { typeOf, isPresent, isBlank } from '@ember/utils';
 import layout from '../templates/components/hyper-search';
+import $ from 'jquery';
 
-const {
-  Component,
-  A: emberArray,
-  RSVP: { Promise, resolve, reject },
-  $: { ajax },
-  run: { debounce, bind },
-  get,
-  set,
-  isBlank,
-  isPresent,
-  typeOf
-} = Ember;
+const { ajax } = $;
 
 /**
  * Returns the key for the query in the cache. Only works in conjunction with
@@ -139,9 +134,10 @@ export default Component.extend({
   },
 
   _handleAction(actionName, ...args) {
-    if (this.attrs && typeOf(this.attrs[actionName]) === 'function') {
-      this.attrs[actionName](...args);
+    if (typeOf(get(this, actionName)) === 'function') {
+      get(this, actionName)(...args);
     } else {
+      // eslint-disable-next-line ember/closure-actions
       this.sendAction(actionName, ...args);
     }
   },

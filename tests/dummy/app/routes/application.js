@@ -1,10 +1,10 @@
+import { Promise } from 'rsvp';
+import { A as emberArray } from '@ember/array';
+import Route from '@ember/routing/route';
 import Ember from 'ember';
 
 const {
-  RSVP: { Promise },
-  $: { getJSON },
-  A: emberArray,
-  Route
+  $: { getJSON }
 } = Ember;
 
 export default Route.extend({

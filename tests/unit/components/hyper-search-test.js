@@ -1,19 +1,15 @@
-import Ember from 'ember';
+import { resolve } from 'rsvp';
+import { get } from '@ember/object';
+import { run, later } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 
 let sandbox;
-const {
-  RSVP: { resolve },
-  run: { later },
-  get,
-  run
-} = Ember;
 
 moduleForComponent('hyper-search', 'Unit | Component | hyper search', {
   unit: true,
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   },
 
   afterEach() {
@@ -24,7 +20,7 @@ moduleForComponent('hyper-search', 'Unit | Component | hyper search', {
 test('#requestAndCache caches queries and their results', function(assert) {
   const component = this.subject({ endpoint: '/' });
   // no need to actually do an ajax request
-  sandbox.stub(component, 'request', resolve);
+  sandbox.stub(component, 'request').callsFake(resolve);
 
   return component.requestAndCache('foo')
     .then((results) => {
@@ -36,7 +32,7 @@ test('#requestAndCache caches queries and their results', function(assert) {
 test('#requestAndCache caches queries with periods', function(assert) {
   const component = this.subject({ endpoint: '/' });
   // no need to actually do an ajax request
-  sandbox.stub(component, 'request', resolve);
+  sandbox.stub(component, 'request').callsFake(resolve);
 
   return component.requestAndCache('pizza@party.com')
     .then((results) => {
@@ -48,7 +44,7 @@ test('#requestAndCache caches queries with periods', function(assert) {
 test('#requestAndCache caches queries with more than one period', function(assert) {
   const component = this.subject({ endpoint: '/' });
   // no need to actually do an ajax request
-  sandbox.stub(component, 'request', resolve);
+  sandbox.stub(component, 'request').callsFake(resolve);
 
   return component.requestAndCache('lots.of.periods')
     .then((results) => {
@@ -119,7 +115,7 @@ test('#actions#search debounces the search', function(assert) {
     endpoint: '/',
     debounceRate: 5
   });
-  sandbox.stub(component, 'request', resolve);
+  sandbox.stub(component, 'request').callsFake(resolve);
 
   component.send('search', null, 'foo'); // first call is not debounced
   assert.deepEqual(get(component, '_cache'), { foo: 'foo' }, 'should return result immediately on first query');

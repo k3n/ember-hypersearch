@@ -15,12 +15,12 @@
     resultKey="name"
     selectResult=(action "selectResult") as |hypersearch|}}
   <form class="hypersearch" {{action "commit" on="submit"}}>
-    {{one-way-input
+    <input
         class="hypersearch-input"
         name="query"
         type="text"
-        update=(action "search" target=hypersearch)
-    }}
+        oninput={{action "search" target=hypersearch}}
+    />
     <ul class="hypersearch-results">
       {{#if hypersearch.results}}
         <p id="result-count">Found {{hypersearch.results.length}} results.</p>
